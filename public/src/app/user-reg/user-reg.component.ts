@@ -8,36 +8,32 @@ import { User } from '../user';
   templateUrl: './user-reg.component.html',
   styleUrls: ['./user-reg.component.css']
 })
+
 export class UserRegComponent implements OnInit {
   username: string;
   pin: number;
   userid?: string;
   games?: [object];
   newUser = new User( this.username, this.pin, this.userid, this.games );
-  @Input() userNameList: [];
+  @Input() userNameList: []; // TODO: deprecate once we move dupe checking serverside
 
   constructor(
     private _httpService : HttpService,
     private _appComponent: AppComponent
     ) { }
 
+  // * grabs list of current users when UserReg component is activated
+  // TODO: deprecate once dupe checking is serverside
   ngOnInit() {
-    console.log( 'user-reg component init' );
-    this._appComponent.getUserList()
+    this._appComponent.getUserList();
   }
 
-  // todo : remove diagnostic when finished
-  get diagnostic() {
-    return JSON.stringify( { component: 'user-reg' , data: this.newUser } );
-  }
-
+  // * called by clicking the submit button; resonpsible for calling http service to post the data, then calling the app to set the user
   onSubmit() {
-    console.log( 'SUBMITTED' , this.newUser );
     const observable = this._httpService.addUser(this.newUser);
     observable.subscribe( data => {
-      console.log( 'PUT request returned:' , data );
       this._appComponent.setUser(data[`data`][`_id`]);
     });
-
   }
+
 }

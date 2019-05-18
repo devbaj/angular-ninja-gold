@@ -1,8 +1,5 @@
-import { GamedataService } from './gamedata.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from './http.service';
-import { User } from './user';
-import { Game } from './game';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,13 +9,12 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'Ninja Gold';
-  userid?: string;
+  userid?: string; // userid will not exist until a user logs in or registers
   loggedIn: boolean;
-  userNameList: [];
+  userNameList: []; // TODO: deprecate this once we move duplicate checking to server side
 
   constructor(
     private _httpService: HttpService,
-    private _gamedataService: GamedataService,
     private _router: Router
 
     ) {
@@ -26,23 +22,24 @@ export class AppComponent implements OnInit {
     }
 
   ngOnInit() {
-    console.log('Angular app init');
   }
 
+  // TODO: deprecate this method once we move dupe checking serverside
   getUserList() {
     const observable = this._httpService.getAllUsers();
     observable.subscribe(data => {
       this.userNameList = data[`users`];
-      console.log(this.userNameList);
   } );
   }
 
+  // * responsible for storing the userid once a user has logged in; this is how we will keep track of who each game belongs to
   setUser(userid: string) {
     this.userid = userid;
     this.loggedIn = true;
-    this._router.navigate(['/game']);
+    this._router.navigate(['/game']); // TODO: redirect user to a dashboard on login instead of a new game
   }
 
+  // * responsible for resetting app to its original state when a user logs out
   logOut(){
     this.userid = null;
     this.loggedIn = false;

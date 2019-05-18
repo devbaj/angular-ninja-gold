@@ -16,8 +16,9 @@ export class LoginComponent implements OnInit {
   games?: [object];
   attempt = new User( this.username, this.pin);
   error?: string;
-  @Input() userNameList: [];
+  @Input() userNameList: []; // TODO: deprecate once dupe check is serverside
 
+  // * ties User object to information input in form
   constructor(
     private _httpService: HttpService,
     private _gamedataService: GamedataService,
@@ -28,26 +29,21 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  // TODO: deprecate once dupe check is serverside
   ngOnInit() {
     console.log( 'login component init' );
     this._appComponent.getUserList();
   }
 
-  // todo: remove when finished
-  get diagnostic() {
-    return JSON.stringify( { component: 'login', data: this.attempt } )
-  }
-
+  // * responsible for calling http service to check user info; if attempt success, calls GamedataService and AppComponent to
+  // * set user info and sets AppComponent's logged in flag to true
   logInUser() {
-    console.log( 'submitted credentials' , this.attempt );
     const observable = this._httpService.loginUser( this.attempt );
     observable.subscribe( data => {
-      console.log( data[`message`] );
-      console.log( data[`data`] );
       if ( data[`message`] === 'success') {
         this._gamedataService.setUser(data[`data`][`userid`], data[`data`][`username`]);
-        this._gamedataService.loggedIn = true;
-        this._appComponent.setUser(data[`data`][`userid`]);
+        this._appComponent.loggedIn = true;
+        this._appComponent.setUser(data[`data`][`userid`]); // ? can this be deprecated? or called by gamedata service?
       } else {
         this.error = 'You could not be logged in';
       }

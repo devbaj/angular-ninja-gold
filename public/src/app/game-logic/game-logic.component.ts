@@ -21,28 +21,25 @@ export class GameLogicComponent implements OnInit, OnDestroy {
     private _gamedataService: GamedataService,
     private _activatedRoute: ActivatedRoute
   ) {
-    this.maxTurns = 10;
+    this.maxTurns = 10; // TODO: let user determine number of turns they want their game to last
     this.locations = this._gamedataService.locations;
   }
 
+  // * on route activation, looks for a gameid in url. if none exists, instantiates a new game
+  // * if gameid parameter is found in url, calls the resumegame method
   ngOnInit() {
-    console.log('game logic component init');
     this.sub = this._activatedRoute.params.subscribe ( params =>{
-      console.log( 'load game params' , params );
       if ( `gameid` in params ) {
-        console.log ( 'found params' );
         this.resumeGame(params.gameid);
       } else {
-        console.log ( 'no params found');
         this._gamedataService.game = new Game(this._gamedataService.userid);
       }
     });
-    // if (this._activatedRoute.snapshot.queryParams[`gameid`]) {
-      // console.log('there are params');
-      // this.resumeGame(this._activatedRoute.snapshot.queryParams['gameid']);
-    // } else { console.log( 'there are no params' ); }
   }
 
+  // * manages main logic for each turn; changes total gold, increments turn count, and pushes information into the turn log
+  // * also checks to see if max turns is met, if so, calls gamedaa service to end the game
+  // @param location: the user's chosen location, info hard-coded in game data service constructor
   visit( location: any ) {
     const change = this.generateChange( location[`max`] , location[`min`]);
     this._gamedataService.game.gold += change;
@@ -53,21 +50,26 @@ export class GameLogicComponent implements OnInit, OnDestroy {
     this.turnHistory = this._gamedataService.game.activityLog;
     if (this._gamedataService.game.turns >= this.maxTurns ) {
       this._gamedataService.endGame(this._gamedataService.game);
-      this.over = true;
     }
     this.gold = this._gamedataService.game.gold;
   }
 
+  // * simple function to generate gold earned for each turn; broken out of turn method for readability
+  // @param max: the max gold possible, based on specific location
+  // @param min: min gold possible based on location
   generateChange( max: number, min: number ): number {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  // * responsible for calling gamedata service's save method whenever user clicks the save button
   saveGame() {
     this._gamedataService.saveGame(this._gamedataService.game);
   }
 
+  // * responsible for setting this instance's variables when a saved game is loaded; called by constructor if there is a gameid parameter
+  // * calls game data service's load method
+  // @ param gameid: the db-generated id of the game, which will only exist if a game has been saved in db; grabbed from url by constructor
   resumeGame(gameid: string) {
-    console.log ( 'resume game' , gameid);
     var game = this._gamedataService.loadGameState(gameid);
     this.gold = game.gold;
     this.turnHistory = game.activityLog;

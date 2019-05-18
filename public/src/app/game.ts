@@ -1,4 +1,3 @@
-import { Turn } from './turn';
 export class Game {
   gold: number;
   turns: number;
@@ -16,6 +15,8 @@ export class Game {
     this.activityLog = [];
   }
 
+  // * responsible for translating game data between our database and gamedata service
+  // TODO: standardize attribute names throughout project
   resume(gameData: any): Game{
     this.gold = gameData[`gold`];
     this.turns = gameData[`turnNumber`];
