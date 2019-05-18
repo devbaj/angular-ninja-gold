@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Home</title>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+
+      <div *ngIf="!loggedIn">
+        <button [routerLink]="['/users']">Register</button>
+        <button [routerLink]="['/login']">Log In</button>
+      </div>
+      <div *ngIf="loggedIn">
+        <button [routerLink]="['/game']">New Game</button>
+        <button [routerLink]="['/load', userid]">Load Game</button>
+        <button (click)="logOut()">Log Out</button>
+      </div>
+
+    </div>
+
+    <div class="main">
+
+      <router-outlet></router-outlet>
+
+    </div>
+
+    <div class="footer"></div>
+
+  </div>
+</body>
+</html>

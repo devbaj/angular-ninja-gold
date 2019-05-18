@@ -1,0 +1,39 @@
+<div class="form">
+  <h1 class="form__title">Register an Account</h1>
+  <form class="form__form" #regForm="ngForm">
+
+    <div class="form__group form-group">
+      <label for="username" class="form__label">Username</label>
+      <input
+            type="text"
+            class="form__input form-control"
+            id="username"
+            required
+            [(ngModel)]="newUser.username"
+            name="username"
+            #name="ngModel"
+      >
+    </div>
+
+    <div class="form__group">
+      <label for="pin" class="form__label">PIN</label>
+      <input
+            type="number"
+            class="form__input form-control"
+            id="pin"
+            required
+            [(ngModel)]="newUser.pin"
+            name="pin"
+            #name="ngModel"
+      >
+    </div>
+
+    <button
+          type="submit"
+          class="btn form__submit submit"
+          (click)="onSubmit(); regForm.reset()"
+          [disabled]="!regForm.form.valid"
+    >Register</button>
+
+  </form>
+</div>

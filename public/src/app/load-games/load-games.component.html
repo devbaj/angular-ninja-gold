@@ -1,0 +1,15 @@
+<div *ngIf="listOfGames.length > 0">
+
+  <p>Saved Games</p>
+
+
+  <div *ngFor="let game of listOfGames">
+    <p>Gold: {{game.gold}}</p>
+    <p>Turns Taken: {{game.turnNumber}}</p>
+    <button
+          [disabled]="game.isOver"
+          [routerLink]="['/game', game._id]"
+          >Resume</button>
+  </div>
+
+</div>
