@@ -1,39 +1,51 @@
 <div class="form">
-  <h1 class="form__title">Register an Account</h1>
-  <form class="form__form" #regForm="ngForm">
+  <div class="form__wrapper">
+    <h2 class="form__title">Register an Account</h2>
+    <form class="form__form" #regForm="ngForm">
 
-    <div class="form__group form-group">
-      <label for="username" class="form__label">Username</label>
-      <input
-            type="text"
-            class="form__input form-control"
-            id="username"
-            required
-            [(ngModel)]="newUser.username"
-            name="username"
-            #name="ngModel"
-      >
-    </div>
+      <div class="form__group form-group">
+        <label for="username" class="form__label">Username</label>
+        <input
+              type="text"
+              minlength="3"
+              maxlength="25"
+              size="25"
+              class="form__input form-control"
+              id="username"
+              required
+              [(ngModel)]="newUser.username"
+              name="username"
+              #name="ngModel"
+        >
+      </div>
 
-    <div class="form__group">
-      <label for="pin" class="form__label">PIN</label>
-      <input
-            type="number"
-            class="form__input form-control"
-            id="pin"
-            required
-            [(ngModel)]="newUser.pin"
-            name="pin"
-            #name="ngModel"
-      >
-    </div>
+      <div class="form__group">
+        <label for="pin" class="form__label">PIN</label>
+        <input
+              type="password"
+              inputmode="numeric"
+              minlength="4"
+              maxlength="8"
+              size="4"
+              pattern="[0-9]{4,4}"
+              title="Enter a PIN consisting of 4 numbers"
+              autocomplete="off"
+              class="form__input form-control"
+              id="pin"
+              required
+              [(ngModel)]="newUser.pin"
+              name="pin"
+              #name="ngModel"
+        >
+      </div>
 
-    <button
-          type="submit"
-          class="btn form__submit submit"
-          (click)="onSubmit(); regForm.reset()"
-          [disabled]="!regForm.form.valid"
-    >Register</button>
+      <button
+            type="submit"
+            class="btn form__submit submit"
+            (click)="onSubmit(); regForm.reset()"
+            [disabled]="!regForm.form.valid"
+      >Register</button>
 
-  </form>
+    </form>
+  </div>
 </div>

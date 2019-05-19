@@ -11,11 +11,13 @@
 
     <div class="header">
 
-      <div *ngIf="!loggedIn">
+      <h1 class="header__title">Ninja Gold</h1>
+
+      <div class="header__buttons" *ngIf="!loggedIn">
         <button [routerLink]="['/users']">Register</button>
         <button [routerLink]="['/login']">Log In</button>
       </div>
-      <div *ngIf="loggedIn">
+      <div class="header__buttons" *ngIf="loggedIn">
         <button [routerLink]="['/game']">New Game</button>
         <button [routerLink]="['/load', userid]">Load Game</button>
         <button (click)="logOut()">Log Out</button>

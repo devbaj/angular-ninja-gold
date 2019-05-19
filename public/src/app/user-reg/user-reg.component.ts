@@ -6,21 +6,17 @@ import { User } from '../user';
 @Component({
   selector: 'app-user-reg',
   templateUrl: './user-reg.component.html',
-  styleUrls: ['./user-reg.component.css']
+  styleUrls: ['../app.component.css', './user-reg.component.css']
 })
-
 export class UserRegComponent implements OnInit {
   username: string;
   pin: number;
   userid?: string;
   games?: [object];
-  newUser = new User( this.username, this.pin, this.userid, this.games );
+  newUser = new User(this.username, this.pin, this.userid, this.games);
   @Input() userNameList: []; // TODO: deprecate once we move dupe checking serverside
 
-  constructor(
-    private _httpService : HttpService,
-    private _appComponent: AppComponent
-    ) { }
+  constructor(private _httpService: HttpService, private _appComponent: AppComponent) {}
 
   // * grabs list of current users when UserReg component is activated
   // TODO: deprecate once dupe checking is serverside
@@ -31,9 +27,8 @@ export class UserRegComponent implements OnInit {
   // * called by clicking the submit button; resonpsible for calling http service to post the data, then calling the app to set the user
   onSubmit() {
     const observable = this._httpService.addUser(this.newUser);
-    observable.subscribe( data => {
+    observable.subscribe(data => {
       this._appComponent.setUser(data[`data`][`_id`]);
     });
   }
-
 }

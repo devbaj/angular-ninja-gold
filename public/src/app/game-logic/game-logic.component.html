@@ -1,5 +1,13 @@
 <div class="game" >
 
+  <div *ngIf="over" class="game__shadowbox"></div>
+  <div class="game__over" *ngIf="over">
+    <h2 class="game__title">GAME OVER</h2>
+    <!-- TODO: figure out routing here for starting a new game, or maybe taking user to a home screen -->
+    <button (click)="ngOnInit()">Start a new game</button>
+    <button (click)="saveGame()">Save this game</button>
+  </div>
+
   <div class="game__header">
 
     <h3 class="game__gold">Your Gold: {{gold}}</h3>
@@ -8,24 +16,22 @@
 
   </div>
 
-  <div class="game__display" *ngFor="let loc of locations | keyvalue ">
+  <div class="game__display">
 
-    <div class="game__place">
+
+    <div class="game__place" *ngFor="let loc of locations | keyvalue">
       <h2 class="game__title">{{ loc.key | titlecase }}</h2>
       <p class="game__desc">Get between <span class="game__gold">{{ loc.value.min }}</span> and <span class="game__gold">{{ loc.value.max }}</span> gold.</p>
-      <button (click)="visit(loc.value)" [disabled]="over">Visit</button>
+      <button class="game__button" (click)="visit(loc.value)" [disabled]="over">Visit</button>
     </div>
 
   </div>
 
-  <div class="game__over" *ngIf="over">
-    <h2 class="game__title">GAME OVER</h2>
-    <!-- TODO: figure out routing here for starting a new game, or maybe taking user to a home screen -->
-    <button [routerLink]="['/game']">OK</button>
-  </div>
 
   <div class="game__log">
-    <p class="game__entry" *ngFor="let entry of turnHistory">
+    <p  class="game__entry"
+        *ngFor="let entry of turnHistory"
+        [class.game__entry--loss]="entry.goldChange<0">
       Visited the {{entry.location}} and
       <span *ngIf="entry.goldChange >= 0">gained</span>
       <span *ngIf="entry.goldChange < 0">lost</span> {{entry.goldChange}} gold.

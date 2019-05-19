@@ -1,41 +1,54 @@
 <div class="form">
-  <h1 class="form_title">Log In</h1>
+  <div class="form__wrapper">
+    <h2 class="form_title">Log In</h2>
 
-  <form class="form__form" #loginForm="ngForm">
+    <form class="form__form" #loginForm="ngForm">
 
-    {{error}}
+      {{error}}
 
-    <div class="form__group form-group">
-      <label for="username" class="form__label">Username</label>
-      <input
-            type="text"
-            class="form__input form-control"
-            id="username"
-            required
-            [(ngModel)]="attempt.username"
-            name="username"
-            #name="ngModel"
-      >
-    </div>
+      <div class="form__group form-group">
+        <label for="username" class="form__label">Username</label>
+        <input
+              minlength="3"
+              maxlength="25"
+              size="25"
+              type="text"
+              class="form__input form-control"
+              id="username"
+              required
+              [(ngModel)]="attempt.username"
+              name="username"
+              #name="ngModel"
+        >
+      </div>
 
-    <div class="form__group">
-      <label for="pin" class="form__label">PIN</label>
-      <input
-            type="number"
-            class="form__input form-control"
-            id="pin"
-            required
-            [(ngModel)]="attempt.pin"
-            name="pin"
-            #name="ngModel"
-      >
-    </div>
+      <div class="form__group">
+        <label for="pin" class="form__label">PIN</label>
+        <input
+              type="password"
+              inputmode="numeric"
+              minlength="4"
+              maxlength="8"
+              size="4"
+              pattern="[0-9]{4,4}"
+              title="Enter a PIN consisting of 4 numbers"
+              autocomplete="off"
+              class="form__input form-control"
+              id="pin"
+              required
+              [(ngModel)]="attempt.pin"
+              name="pin"
+              #name="ngModel"
+        >
+      </div>
 
-    <button
-          type="submit"
-          class="btn form__submit submit"
-          (click)="logInUser()"
-    >Log In</button>
+      <button
+            type="submit"
+            class="btn form__submit submit"
+            (click)="logInUser()"
+            [disabled]="!loginForm.valid"
+      >Log In</button>
 
-</form>
+    </form>
+  </div>
 </div>
