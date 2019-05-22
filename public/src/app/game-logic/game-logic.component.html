@@ -10,7 +10,10 @@
 
   <div class="game__header">
 
-    <h3 class="game__gold">Your Gold: {{gold}}</h3>
+    <h3
+        class="game__gold-total"
+        [class.game__gold-total--negative]="gold<0"
+        >Your Gold: {{gold}}</h3>
 
     <button (click)="saveGame()">Save</button>
 

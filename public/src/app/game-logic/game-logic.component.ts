@@ -24,6 +24,7 @@ export class GameLogicComponent implements OnInit, OnDestroy {
 
   // * on route activation, looks for a gameid in url. if none exists, instantiates a new game
   // * if gameid parameter is found in url, calls the resumegame method
+  // ! currently, if a user resumes a saved game, the loaded info will not display until after they visit another location
   ngOnInit() {
     this.sub = this._activatedRoute.params.subscribe(params => {
       if (`gameid` in params) {
