@@ -1,3 +1,10 @@
-node_modules/
+node_modules
 sass-create
 sass-destroy
+.DS_Store
+.idea
+.vagrant
+bootstrap.sh
+VagrantFile
+bower_components
+package-lock.json
